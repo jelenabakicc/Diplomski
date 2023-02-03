@@ -2,7 +2,6 @@
 #define POLYNOMIAL_H
 
 #include<iostream>
-
 using namespace std;
 
 class Polynomial
@@ -14,7 +13,8 @@ class Polynomial
 
     // konstruktori
     Polynomial();    //inicijlizacija praznim polinomom
-    Polynomial(const int degree, const int* coeffs);     // inicijalizacija vektorom koeficijenata
+    Polynomial(const int degree, const int* coeffs);     // inicijalizacija vektorom 
+														 // koeficijenata
     Polynomial(const Polynomial& poly);   // inicijalizacija drugim polinomom
     Polynomial(Polynomial&& poly);   // inicijalizacija drugim polinomom
 
@@ -32,10 +32,10 @@ class Polynomial
     // ispis polinoma
     void printPolynomial() const;
 
-    // ostatak deljenja dva polinoma se smešta u polinom deljenika, dok se kao argument uzima polinom delioca
+    // ostatak deljenja dva polinoma se smešta u polinom deljenika, dok se kao argument 
+	// uzima polinom delioca
     void calculateReminder(Polynomial& poly);
 
 };
-
 
 #endif

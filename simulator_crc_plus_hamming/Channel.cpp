@@ -1,13 +1,12 @@
 #include "Channel.h"
 
-
-
 void Channel::insertErrors()
 {
 
     double randomNumber;
-    
-    srand(time(nullptr));                // podesiti seed slučajnog generatora na osnovu trenutnog vremena; srand(const) omogućava ponovljivost niza slučajnog brojeva 
+	// podesiti seed slučajnog generatora na osnovu trenutnog vremena; 
+	// srand(const) omogućava ponovljivost niza slučajnog brojeva 
+    srand(time(nullptr));                
 
     for (int i=0;i<channelSequnceLength;i++)
     {
@@ -24,7 +23,7 @@ void Channel::fillAndProcess(int* sequence)
 
     insertErrors();  // dodaju se greške
 
-    for(int i=0;i<channelSequnceLength;i++) outputCopy[i] = output[i]; // pravi se kopija za izlaz
-
-    
+	// pravi se kopija za izlaz
+    for(int i=0;i<channelSequnceLength;i++) outputCopy[i] = output[i];     
 }
+

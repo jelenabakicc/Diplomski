@@ -11,16 +11,27 @@ class CrcBlock
     public:
 
     // konstruktori
-    CrcBlock(): poly(-1,nullptr){}                                       //inicijalizacija praznim blokom
-    CrcBlock(const Polynomial& externPoly): poly(externPoly){}          // inicijalizacija bloka polinomom
-    CrcBlock(const CrcBlock& crc): poly(crc.poly){}                     // inicijalizacija bloka drugim blokom
+	// inicijalizacija praznim blokom
+    CrcBlock(): poly(-1,nullptr){}   
+
+	// inicijalizacija bloka polinomom
+    CrcBlock(const Polynomial& externPoly): poly(externPoly){}  
+
+	// inicijalizacija bloka drugim blokom
+    CrcBlock(const CrcBlock& crc): poly(crc.poly){}       
+
 
     Polynomial getCrcGenerator() const; 
-    void setCrcGenerator(const Polynomial&);  // funkcija uzima Polynomial i kopira u član "poly"  
+	// funkcija uzima Polynomial i kopira u član "poly"
+    void setCrcGenerator(const Polynomial&);    
     void setCrcGenerator(const CrcBlock& externCrc){poly = externCrc.poly;}
 
-    int* encodeWord(int, const int*);  // funkcija uzima informacionu sekvencu (const int*) i njenu dužinu i na izlaz šalje kodnu sekvecnu
-    int checkSum(int, const int*);  // funkcija uzima sekvencu bita (const int*) određene dužine (int) i vraća flag koji govori da li sekvenca sadrži grešku
+	// funkcija uzima informacionu sekvencu (const int*) i njenu dužinu 
+	// i na izlaz šalje kodnu sekvecnu
+    int* encodeWord(int, const int*);  
+	// funkcija uzima sekvencu bita (const int*) određene dužine (int) 
+	// i vraća flag koji govori da li sekvenca sadrži grešku
+    int checkSum(int, const int*);  
 
     // ispis crc bloka
     void printCrcBlock() const;

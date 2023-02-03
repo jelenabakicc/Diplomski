@@ -10,15 +10,14 @@ class CommBlock
     
     public:
 
-    CommBlock(const CrcBlock& crc, Config& simConfig, userSide externSide):frame(crc, simConfig,externSide) 
+    CommBlock(const CrcBlock& crc, Config& simConfig, userSide externSide):
+		frame(crc, simConfig,externSide) 
     {
-       // frame.setFrame(crc, simConfig,externSide); 
-       // hamming.setHamming(simConfig,externSide);
-        simConfig.totalLength = simConfig.numFrames; // određuje se dužina Hemingovog koda i upisuje u Config strukturu
+        frame.setFrame(crc, simConfig,externSide); 
+        simConfig.totalLength = simConfig.numFrames; 
     }
 
     Frame frame;
-
 
 };
 

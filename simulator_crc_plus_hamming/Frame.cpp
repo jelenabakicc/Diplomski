@@ -1,8 +1,7 @@
-
 #include "Frame.h"
 
 
-Frame::Frame():crc()                    //inicijalizacija praznim blokom
+Frame::Frame():crc()     //inicijalizacija praznim blokom
 {
     numFrames = 0;
     payloadSize = 0;
@@ -10,11 +9,11 @@ Frame::Frame():crc()                    //inicijalizacija praznim blokom
     numDetectedFailures = -1;
     output = nullptr;
     outputCopy = nullptr;
-
 }    
 
 
-Frame::Frame(const CrcBlock& externCrc, const Config& myConfig, userSide externSide): crc(externCrc)                  //kompletna inicijalizacija 
+Frame::Frame(const CrcBlock& externCrc, const Config& myConfig, userSide externSide): 
+	crc(externCrc)       //kompletna inicijalizacija 
 {
     numFrames = myConfig.numFrames;
     payloadSize = myConfig.payloadSize;
@@ -26,7 +25,6 @@ Frame::Frame(const CrcBlock& externCrc, const Config& myConfig, userSide externS
     output = new int[numFrames*(payloadSize+overheadSize)];
 
     side = externSide;
-
 }  
 
 void Frame::setFrame(const CrcBlock& externCrc,const Config& myConfig, userSide externSide)
@@ -52,9 +50,7 @@ void Frame::setFrame(const CrcBlock& externCrc,const Config& myConfig, userSide 
     {
         output = new int[numFrames*payloadSize];
         outputCopy = new int[numFrames*payloadSize];
-    }
-     
-
+    }   
 }
 
 
@@ -73,21 +69,21 @@ void Frame::fillAndProcess(int* inputStream)
 
             tempInputFrame = new int[payloadSize];
 
-            for(int j=0;j<payloadSize;j++)  tempInputFrame[j]=inputStream[i*payloadSize+j];
+            for(int j=0;j<payloadSize;j++)  
+				tempInputFrame[j]=inputStream[i*payloadSize+j];
 
             tempOutputFrame = crc.encodeWord(payloadSize,tempInputFrame);
-
-            for(int j=0;j<payloadSize+overheadSize;j++)  output[i*(payloadSize+overheadSize)+j]=tempOutputFrame[j];    // kopiranje privremenog frejma u izlazni niz frejmova
+			// kopiranje privremenog frejma u izlazni niz frejmova
+            for(int j=0;j<payloadSize+overheadSize;j++)  
+				output[i*(payloadSize+overheadSize)+j]=tempOutputFrame[j];    
 
             delete[] tempOutputFrame;
             delete[] tempInputFrame;
 
         }
-
-
-        for (int i=0;i<(payloadSize+overheadSize)*numFrames;i++) outputCopy[i] = output[i];  // pravi se kopija izlaznog niza
-
-        
+		// pravi se kopija izlaznog niza
+        for (int i=0;i<(payloadSize+overheadSize)*numFrames;i++) 
+			outputCopy[i] = output[i];        
    }
    else 
    {    
@@ -96,16 +92,17 @@ void Frame::fillAndProcess(int* inputStream)
         int counter = 0;
         for (int i=0;i<(payloadSize+overheadSize)*numFrames;i++) 
         { 
-            if (i%(payloadSize+overheadSize)<payloadSize) output[counter++]=inputStream[i];
+            if (i%(payloadSize+overheadSize)<payloadSize) 
+				output[counter++]=inputStream[i];
         }
-
-        for (int i=0;i<payloadSize*numFrames;i++) outputCopy[i] = output[i];  // pravi se kopija izlaznog niza
-
+		// pravi se kopija izlaznog niza
+        for (int i=0;i<payloadSize*numFrames;i++) outputCopy[i] = output[i];  
    }
-
 }
 
-void Frame::checkFrames(int* inputStream) // funkcija ne alocira novu memoriju (sva dinamički dodeljena memorija se briše u okviru funkcije)
+// funkcija ne alocira novu memoriju (sva dinamički dodeljena 
+// memorija se briše u okviru funkcije)
+void Frame::checkFrames(int* inputStream) 
 {
     numDetectedFailures = 0;
     int errorFlag;
@@ -116,7 +113,8 @@ void Frame::checkFrames(int* inputStream) // funkcija ne alocira novu memoriju (
     {
         tempFrame = new int[payloadSize+overheadSize];
 
-        for (int j=0;j<payloadSize+overheadSize;j++) tempFrame[j] = inputStream[i*(payloadSize+overheadSize)+j];
+        for (int j=0;j<payloadSize+overheadSize;j++) 
+			tempFrame[j] = inputStream[i*(payloadSize+overheadSize)+j];
 
         errorFlag = crc.checkSum(payloadSize+overheadSize,tempFrame);
         
@@ -124,12 +122,14 @@ void Frame::checkFrames(int* inputStream) // funkcija ne alocira novu memoriju (
 
         numDetectedFailures += errorFlag;
 
-        if(errorFlag==1)   // obeležavanje pogrešno primljenih frejmova (detektovane greške se koduju numeričkom vrednošću "2")
+		// obeležavanje pogrešno primljenih frejmova 
+		// (detektovane greške se koduju numeričkom vrednošću "2")
+        if(errorFlag==1)   
         {
-            for (int j=0;j<payloadSize+overheadSize;j++) inputStream[i*(payloadSize+overheadSize)+j]=2;
+            for (int j=0;j<payloadSize+overheadSize;j++) 
+				inputStream[i*(payloadSize+overheadSize)+j]=2;
         } 
     }
-
 }  
 void Frame::printFrameInfo() const
 {
@@ -141,5 +141,4 @@ void Frame::printFrameInfo() const
     cout << "Num. of detected failures: " << numDetectedFailures << endl;
 
     crc.printCrcBlock();
-
 }

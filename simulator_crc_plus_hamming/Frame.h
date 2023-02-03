@@ -14,21 +14,22 @@ class Frame
     int* outputCopy;
 
     userSide side;
-
     CrcBlock crc;
 
-    void checkFrames(int*);   // frejmovi se proveravaju i svi frejmovi sa detektovanom greškom se brišu (dodeljuje im se vrednost 2) 
-
+	// frejmovi se proveravaju i svi frejmovi sa detektovanom 
+	// greškom se brišu (dodeljuje im se vrednost 2) 
+    void checkFrames(int*);   
 
     public:
-
     // konstruktori
-    Frame();                    //inicijalizacija praznim blokom
-    Frame(const CrcBlock&,const Config&,userSide);    // kompletna inicijalizacija 
+	// inicijalizacija praznim blokom
+    Frame();                    
+	// kompletna inicijalizacija 
+    Frame(const CrcBlock&,const Config&,userSide);   
     // destruktor
     ~Frame() {delete[] output; delete[] outputCopy;};
 
-    void fillAndProcess(int*);          // napuniti frejmove bitima za slanje 
+    void fillAndProcess(int*);   // napuniti frejmove bitima za slanje 
     int* getOutput() const {return outputCopy;}
     void setFrame(const CrcBlock&,const Config&,userSide);
     // ispis podataka o frejmovima

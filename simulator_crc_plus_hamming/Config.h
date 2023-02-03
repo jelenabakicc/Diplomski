@@ -12,13 +12,15 @@ struct Config
     const int sourceStreamSize = 4000000;
     const int payloadSize = 40;
     int numFrames = sourceStreamSize/payloadSize;
+
     // parametri crc bloka
-	const int crcGenPoly[9] = { 1,0,0,0,0,0,1,1,1 };
+	const int crcGenPoly[17] = { 1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1 };
     const int overheadSize = sizeof(crcGenPoly)/sizeof(int)-1;
     const int frameLength = numFrames*(payloadSize+overheadSize);
     int totalLength;
+
     // parametri kanala
-	const double bscErrorProbArray[1] = { 0.13 };
+	const double bscErrorProbArray[1] = { 0.07 };
     const int numOfChannels = sizeof(bscErrorProbArray)/sizeof(double);
 };
 

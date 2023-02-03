@@ -54,7 +54,8 @@ void Polynomial::printPolynomial() const //ispis polinoma
 
 int Polynomial::getPolyDegree() const
 {
-    return this->polyDegree; // pristup preko podrazumevanog pokazivača this (korišćenje pokazivača this u ovom primeru nije bilo neophodno)
+    return this->polyDegree; // pristup preko podrazumevanog pokazivača this (korišćenje
+							 // pokazivača this u ovom primeru nije bilo neophodno)
 }
 
 
@@ -79,13 +80,13 @@ void Polynomial::setPolynomial(int degree, int* polyPtr)
 
     if(polyDegree>-1)
     {      
-    polyCoefficients = new int[polyDegree+1];  // alocira se nova memorija za koeficijente
+    polyCoefficients = new int[polyDegree+1];  // alocira se nova memorija za 
+											   // koeficijente
 
         for (int i=0;i<=polyDegree;i++) polyCoefficients[i] = polyPtr[i];
     }
     else
         polyCoefficients = nullptr;
-
 }
 
 Polynomial Polynomial::operator=(const Polynomial& poly)
@@ -96,7 +97,6 @@ Polynomial Polynomial::operator=(const Polynomial& poly)
     for(int i=0;i<=polyDegree;i++) polyCoefficients[i] = poly.polyCoefficients[i];
 
     return *this;
-
 }
 
 void Polynomial::calculateReminder(Polynomial& poly)
@@ -104,40 +104,44 @@ void Polynomial::calculateReminder(Polynomial& poly)
     int* rem;
     rem = new int[poly.polyDegree+1];
 
-    int* temp;                            //pomoći pokazivač koji pokazuje na tekući rezultat deljenja
+    int* temp;        //pomoći pokazivač koji pokazuje na tekući rezultat deljenja
     temp = new int[poly.polyDegree+1];
 
     for(int i=0;i<poly.polyDegree+1;i++)
-        rem[i]=polyCoefficients[i];                    //ostatak pri deljenju se inicijalizuje na deljenik
+        rem[i]=polyCoefficients[i];   //ostatak pri deljenju se inicijalizuje na deljenik
 
     for(int j=poly.polyDegree+1;j<=polyDegree+1;j++)
     {
         for(int m=0;m<poly.polyDegree+1;m++) temp[m]=rem[m];
 
-        if(rem[0]==0)                // ako je naveći stepen tekućeg ostatka '0' preskače se jedan stepen deljenja 
+        if(rem[0]==0)   // ako je naveći stepen tekućeg ostatka '0' 
+						// preskače se jedan stepen deljenja 
         {
             for(int m=0;m<poly.polyDegree;m++) rem[m]=temp[m+1];
 
         
         }
-        else                    // u suprotnom se vrši XOR operacija tekućeg ostatka i deljenika
+        else   // u suprotnom se vrši XOR operacija tekućeg ostatka i deljenika
         {    
             for(int i=0;i<poly.polyDegree;i++)
                 rem[i]=(temp[i+1]+poly.polyCoefficients[i+1])%2;
             
         }
         if(j!=polyDegree+1)
-            rem[poly.polyDegree]=polyCoefficients[j];        //dodaje se sledeći bit deljenika
+            rem[poly.polyDegree]=polyCoefficients[j];  //dodaje se sledeći 
+													   // bit deljenika
        else
             rem[poly.polyDegree]=0;
     }
 
 
-    delete[] polyCoefficients; // sada je moguće izbrisati stare koeficijente da bi se upisali novi
+    delete[] polyCoefficients; // sada je moguće izbrisati stare koeficijente 
+							   // da bi se upisali novi
 
-    polyCoefficients = new int[poly.polyDegree];   // dodela memorije za nove koeficijente
+    polyCoefficients = new int[poly.polyDegree]; // dodela memorije za nove koeficijente
 
-    for(int m=0;m<poly.polyDegree;m++) polyCoefficients[m]=rem[m];  // kopiranje ostatka (rem) u nove koeficijente
+	// kopiranje ostatka (rem) u nove koeficijente
+    for(int m=0;m<poly.polyDegree;m++) polyCoefficients[m]=rem[m];  
 
     delete[] rem;
     delete[] temp;

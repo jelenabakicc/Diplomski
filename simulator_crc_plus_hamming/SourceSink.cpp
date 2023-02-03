@@ -6,8 +6,9 @@ void SourceSink::generateStream() // binarni izvor s memorijom prvog reda
     double randomNumber;
     int sourceState = 0;
     
-    srand(time(nullptr));                // podesiti seed slučajnog generatora na osnovu trenutnog vremena; 
-                                         // srand(const) omogućava ponovljivost niza slučajnog brojeva 
+	// podesiti seed slučajnog generatora na osnovu trenutnog vremena; 
+	// srand(const) omogućava ponovljivost niza slučajnog brojeva 
+    srand(time(nullptr));                
 
     for (int i=0;i<sourceStreamSize;i++)
     {
@@ -25,8 +26,8 @@ void SourceSink::generateStream() // binarni izvor s memorijom prvog reda
             output[i]=sourceState;
         }
     }
-
-    for (int i=0;i<sourceStreamSize;i++) outputCopy[i] = output[i];  //kopiranje niza za izlaz
+    for (int i=0;i<sourceStreamSize;i++) 
+		outputCopy[i] = output[i];  //kopiranje niza za izlaz
 }
 
 void SourceSink::calculateErrors(const Config& myConfig, int* receivedframes)
@@ -39,7 +40,7 @@ void SourceSink::calculateErrors(const Config& myConfig, int* receivedframes)
         {
             for (int j=0;j<myConfig.payloadSize;j++) 
             {
-                if(receivedframes[i*myConfig.payloadSize+j]!=output[i*myConfig.payloadSize+j])
+                if(receivedframes[i*myConfig.payloadSize+j]!= output[i*myConfig.payloadSize+j])
                 { 
                     numUndetecdedErrors ++;
                     break;
@@ -51,5 +52,4 @@ void SourceSink::calculateErrors(const Config& myConfig, int* receivedframes)
     
     cout << "Num. erroneous frames: " << numUndetecdedErrors << endl;
     cout << "--------------------------------------\n";
-
 }

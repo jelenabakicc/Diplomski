@@ -4,13 +4,9 @@
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
 #include<iostream>
-
 #include "Config.h"
 
-
 using namespace std;
-
-
 
 class SourceSink
 {
@@ -23,18 +19,27 @@ class SourceSink
     public:
     // konstruktori
     SourceSink() {sourceStreamSize = 0; transProb01 = 0.5; transProb10 = 0.5; output =nullptr;}                           
-    SourceSink(const Config& myConfig): sourceStreamSize{myConfig.sourceStreamSize},  transProb01{myConfig.transProb01}, transProb10{myConfig.transProb10} 
-                {output = new int[sourceStreamSize]; outputCopy = new int[sourceStreamSize];};
+    SourceSink(const Config& myConfig): 
+		sourceStreamSize{myConfig.sourceStreamSize}, transProb01{ myConfig.transProb01 },
+		transProb10{myConfig.transProb10} 
+    {
+		output = new int[sourceStreamSize]; 
+		outputCopy = new int[sourceStreamSize];
+	};
 
     ~SourceSink() {delete[] output; delete[] outputCopy;}  //briše se baferisani niz
 	
-    void setSourceSize(int size) {sourceStreamSize = size; output = new int[sourceStreamSize]; outputCopy = new int[sourceStreamSize];}; 
+    void setSourceSize(int size) 
+	{
+		sourceStreamSize = size; 
+		output = new int[sourceStreamSize]; 
+		outputCopy = new int[sourceStreamSize];
+	}; 
     void setTarnsProbs(double p01, double p10) {transProb01 = p01; transProb10 = p10;}; 
 
     int* getOutput(){return outputCopy;}
     void generateStream();
     void calculateErrors(const Config&, int*);
-
 
 };
 

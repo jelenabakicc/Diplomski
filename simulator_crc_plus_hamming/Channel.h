@@ -12,16 +12,18 @@ class Channel
     int* outputCopy;
 
     void insertErrors();
-    void fillChannel(int* sequence) {for(int i=0;i<channelSequnceLength;i++) output[i]=sequence[i];} //ulaz u kanal se baferiše
+	//ulaz u kanal se baferiše
+    void fillChannel(int* sequence) {for(int i=0;i<channelSequnceLength;i++) output[i]=sequence[i];} 
 
     public:
 
-    Channel(int length,double rate=0): channelRate(rate), channelSequnceLength(length){output = new int[channelSequnceLength];  outputCopy = new int[channelSequnceLength];};
+    Channel(int length,double rate=0): 
+		channelRate(rate), channelSequnceLength(length)
+	{output = new int[channelSequnceLength];  outputCopy = new int[channelSequnceLength];};
     ~Channel() {delete[] output; delete[] outputCopy;}
     void fillAndProcess(int*);
     void setChannelRate(double rate) {channelRate = rate;}
     int* getOutput() {return outputCopy;}
-
 };
 
 #endif
