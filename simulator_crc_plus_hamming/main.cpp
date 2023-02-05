@@ -8,9 +8,8 @@
 
 int main(int argc, char *argv[])
 {
-
     
-	///////////////////////////////////////////		 KREIRANJE OBJEKATA		/////////////////////////////////////////////
+	//////////	 KREIRANJE OBJEKATA	  ///////////////////
 
     Config simConfig;   // konfiguraciona struktora 
 
@@ -29,7 +28,7 @@ int main(int argc, char *argv[])
     Channel channel(simConfig.frameLength);
 
     
-	////////////////////////////////////////////	 SIMULACIJA		 /////////////////////////////////////////////
+	//////////	 SIMULACIJA	  ////////////////
 
     for (int i=0;i<simConfig.numOfChannels;i++)
     {
@@ -40,25 +39,31 @@ int main(int argc, char *argv[])
 			cout << "Channel rate: " << simConfig.bscErrorProbArray[i] << endl;
 
 			//predajnik
-			user.generateStream();     // generisanje strima izvora podataka
-			transmitter.frame.fillAndProcess(user.getOutput());    // kreiranje frejmova koje uključuje parsiranje strima i dodavanje crc dodatka na svaki frejm        
+
+			// generisanje strima izvora podataka
+			user.generateStream();     
+			// kreiranje frejmova koje uključuje parsiranje strima i 
+			// dodavanje crc dodatka na svaki frejm
+			transmitter.frame.fillAndProcess(user.getOutput());            
 
 			// kanal
-			channel.setChannelRate(simConfig.bscErrorProbArray[i]);  //podešavanje tekuće verovatnoće greške u kanalu
-			channel.fillAndProcess(transmitter.frame.getOutput()); // punjenje kanalnog bafera podacima
+
+			//podešavanje tekuće verovatnoće greške u kanalu
+			channel.setChannelRate(simConfig.bscErrorProbArray[i]);  
+			// punjenje kanalnog bafera podacima
+			channel.fillAndProcess(transmitter.frame.getOutput()); 
 
 			//prijemnik
-			receiver.frame.fillAndProcess(channel.getOutput());  // baferovanje frejmova u prijemniku 
-			receiver.frame.printFrameInfo(); // ispis rezultata CRC provere
 
-			user.calculateErrors(simConfig, receiver.frame.getOutput()); // procena broja nedetektovanih pogrešnih frejmova
-
-		}
-        
+			// baferovanje frejmova u prijemniku 
+			receiver.frame.fillAndProcess(channel.getOutput());  
+			// ispis rezultata CRC provere
+			receiver.frame.printFrameInfo();
+			// procena broja nedetektovanih pogrešnih frejmova
+			user.calculateErrors(simConfig, receiver.frame.getOutput()); 
+		}        
     }
-
     return 0;
-
 }
 
 

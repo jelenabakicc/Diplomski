@@ -14,7 +14,7 @@ struct Config
     int numFrames = sourceStreamSize/payloadSize;
 
     // parametri crc bloka
-	const int crcGenPoly[17] = { 1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1 };
+	const int crcGenPoly[17] = { 1,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1 };
     const int overheadSize = sizeof(crcGenPoly)/sizeof(int)-1;
     const int frameLength = numFrames*(payloadSize+overheadSize);
     int totalLength;
